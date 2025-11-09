@@ -1,0 +1,18 @@
+{
+  "rows": 20,
+  "cols": 30,
+  "start": [18, 2],
+  "goal": [2, 27],
+  "terrain": {
+    "OPEN": 1.0,
+    "FOREST": 2.0,
+    "URBAN": 1.5,
+    "WATER": 7.0,
+    "MOUNTAIN": 5.0,
+    "BLOCKED": 9999.0
+  },
+  "enemies": [
+    [5, 20, 5],
+    [12, 25, 4]
+  ]
+}

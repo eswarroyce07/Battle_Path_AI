@@ -1,0 +1,178 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>BattlePath AI — Web</title>
+    <!-- Bootstrap for a grander UI -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+      :root{ --bg1: #0f1724; --bg2:#071021; --card:#0b1220; --muted: #9aa6b2 }
+      html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial}
+      body{background:linear-gradient(180deg,var(--bg1),var(--bg2));color:#e6eef6}
+      .container-fluid{padding:28px 36px}
+      .hero{display:flex;align-items:center;gap:20px;margin-bottom:18px}
+      .brand {font-size:28px;font-weight:700;letter-spacing:-0.02em}
+      .tag{color:var(--muted);margin-top:6px}
+      .controls-bar{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+      .card-ui{background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.04);padding:14px;border-radius:12px}
+      #canvas-wrap{display:flex;justify-content:center;align-items:center;padding:18px;margin-bottom:18px}
+      canvas{background:linear-gradient(180deg,#0b0f14,#071018);box-shadow:0 10px 30px rgba(2,6,23,0.6);border-radius:8px}
+      .section{margin-bottom:28px}
+      h4.section-title{color:#f0f8ff}
+      p.lead{color:var(--muted)}
+      pre.math{background:rgba(255,255,255,0.02);padding:12px;border-radius:8px;overflow:auto}
+      .legend-box{width:18px;height:18px;display:inline-block;margin-right:6px;vertical-align:middle;border-radius:4px}
+      footer{padding:24px 0;color:var(--muted);font-size:13px}
+      @media (max-width:900px){ .hero{flex-direction:column;align-items:flex-start} }
+    </style>
+    <!-- MathJax for rendered math (improves formulas in the docs) -->
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+  </head>
+    <body>
+      <div class="container-fluid">
+        <div class="hero">
+          <div>
+            <div class="brand">BattlePath AI</div>
+            <div class="tag">Tactical pathfinding with risk-aware A* — interactive web demo</div>
+          </div>
+          <div class="ms-auto text-end">
+            <div class="card-ui" style="display:inline-block">
+              <div style="font-weight:700">Mode</div>
+              <select id="mode" class="form-select form-select-sm mt-1"><option>SAFEST</option><option>FASTEST</option></select>
+            </div>
+          </div>
+        </div>
+
+        <div class="controls-bar">
+          <div class="card-ui">
+            <div class="d-flex gap-2 align-items-center">
+              <button id="compute" class="btn btn-primary">Compute Path</button>
+              <button id="animate" class="btn btn-outline-light">Animate</button>
+              <button id="randomize" class="btn btn-warning">Randomize</button>
+              <button id="download" class="btn btn-success">Download Path</button>
+              <span class="ms-3 text-muted" id="info">Map loading...</span>
+            </div>
+            <div class="row mt-2">
+              <div class="col-auto">
+                <label class="form-label small mb-0">Enemy range</label>
+                <input id="enemyRange" class="form-control form-control-sm" type="number" min="1" max="10" value="4" />
+              </div>
+              <div class="col-auto">
+                <label class="form-label small mb-0">Zoom</label>
+                <input id="zoom" type="range" class="form-range" min="4" max="60" value="24">
+              </div>
+              <div class="col-auto">
+                <div class="form-check mt-2">
+                  <input class="form-check-input" type="checkbox" id="showRisk" checked>
+                  <label class="form-check-label small" for="showRisk">Show risk</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="dragStartGoal">
+                  <label class="form-check-label small" for="dragStartGoal">Drag start/goal</label>
+                </div>
+              </div>
+              <div class="col-auto">
+                <button id="fit" class="btn btn-sm btn-outline-primary">Fit to Window</button>
+                <button id="clearEnemies" class="btn btn-sm btn-outline-danger">Clear Enemies</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-ui">
+            <div class="mb-2 small text-muted">Map upload / download</div>
+            <input id="mapFile" type="file" class="form-control form-control-sm mb-2" accept=".json">
+            <div class="d-flex gap-2">
+              <button id="saveMap" class="btn btn-outline-light btn-sm">Save Map</button>
+              <button id="resetMap" class="btn btn-outline-danger btn-sm">Reset</button>
+            </div>
+          </div>
+
+          <div class="card-ui">
+            <div class="small mb-2">Scenario</div>
+            <input id="scenarioFile" type="file" class="form-control form-control-sm mb-2" accept=".json">
+            <div class="d-flex gap-2">
+              <button id="exportScenario" class="btn btn-outline-light btn-sm">Export</button>
+              <button id="importScenario" class="btn btn-outline-light btn-sm">Import</button>
+            </div>
+            <div class="small mt-2 d-flex align-items-center">
+              <div style="margin-right:10px">Risk:</div>
+              <canvas id="legendCanvas" width="180" height="18" style="border-radius:6px;box-shadow:inset 0 0 6px rgba(0,0,0,0.25);background:#111;margin-right:8px"></canvas>
+              <div class="small text-muted"><span id="riskMin">0</span> — <span id="riskMax">0</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="canvas-wrap" class="section d-flex justify-content-center">
+          <canvas id="c" width="960" height="640"></canvas>
+        </div>
+
+        <div class="section">
+          <div class="card-ui p-4">
+            <h4 class="section-title">Algorithm — A* (A-star)</h4>
+            <p class="lead">This demo uses the A* search algorithm to compute a cost-minimizing path from a start to a goal on a grid with 4-way movement. A* finds a path by combining the cost-so-far (g) with a heuristic estimate (h) of the remaining cost to the goal to prioritize which nodes to explore.</p>
+
+            <h6>Core idea</h6>
+            <p>A* maintains for each visited cell a g-score (the lowest cost found so far to reach it) and an f-score = g + h. It uses a priority queue ordered by f-score to expand nodes. When the goal is popped from the queue, the path is reconstructed.</p>
+
+            <h6>Heuristic</h6>
+            <p class="lead">We use the Manhattan distance as an admissible heuristic for 4-way movement:</p>
+            <pre class="math">h(a, b) = |a.r - b.r| + |a.c - b.c|</pre>
+
+            <h6>Cost function</h6>
+            <p>The movement cost to step into a neighbor cell is:</p>
+            <pre class="math">cost = terrain_cost(cell) + risk_weight * risk(cell)</pre>
+            <p>Where <code>terrain_cost</code> is a baseline cost depending on terrain type (Open, Forest, Water, Mountain). The <code>risk(cell)</code> term is computed from nearby enemies (see Threat model below) and weighted by the selected mode (<em>SAFEST</em> vs <em>FASTEST</em>).</p>
+
+            <h6>Correctness & complexity</h6>
+            <p>A* with an admissible and consistent heuristic is guaranteed to find an optimal path. Time complexity is O(b^d) in the worst case (b = branching factor, d = solution depth), but in practice A* is efficient for grid pathfinding with a good heuristic.</p>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="card-ui p-4">
+            <h4 class="section-title">Threat model & risk</h4>
+            <p class="lead">Enemies produce area-based risk values which the path planner avoids when in SAFEST mode. The implementation computes a per-cell risk by aggregating contributions from each enemy based on Manhattan distance and an exponential decay outside the enemy's nominal range.</p>
+
+            <h6>Risk computation</h6>
+            <p>For an enemy at (er,ec) with range R and a global maximum contribution <code>risk_max</code> and decay factor <code>decay</code>:</p>
+            <pre class="math">if d <= R: contrib = risk_max
+else: contrib = risk_max * (decay ** (d - R))
+risk[cell] = sum(contrib over enemies)</pre>
+
+            <h6>Mode weighting</h6>
+            <p>Two common planner modes are exposed:</p>
+            <ul>
+              <li><strong>SAFEST</strong>: large risk weight increases cost for risky cells, producing safer but potentially longer routes.</li>
+              <li><strong>FASTEST</strong>: lower risk weight prioritizes shorter routes even if they pass near enemies.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="card-ui p-4">
+            <h4 class="section-title">How it works (step-by-step)</h4>
+            <ol>
+              <li>Load the map: grid cells, terrain costs, and optional metadata (start, goal, enemies).</li>
+              <li>Choose enemy placements (click canvas) or randomize them.</li>
+              <li>Select mode (SAFEST/FASTEST) and press Compute Path.</li>
+              <li>The backend computes the risk grid, runs A*, and returns the path + risk grid.</li>
+              <li>The frontend renders the terrain, the risk heat overlay, enemies, and the path. Use Animate to step through the path.</li>
+            </ol>
+            <p class="lead">This single-page layout contains the full technical description and interactive demo; scroll to read and experiment.</p>
+          </div>
+        </div>
+
+        <footer>
+          <div class="d-flex justify-content-between">
+            <div>© BattlePath AI — demo • A* pathfinding + risk model</div>
+            <div>References: Hart, Nilsson & Raphael (1968) — A* Search</div>
+          </div>
+        </footer>
+      </div>
+
+    <script src="app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

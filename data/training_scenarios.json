@@ -1,0 +1,56 @@
+{
+  "scenarios": [
+    {
+      "name": "basic_pathfinding",
+      "description": "Simple open terrain with minimal obstacles",
+      "rows": 8,
+      "cols": 12,
+      "start": [7, 0],
+      "goal": [0, 11],
+      "terrain": {
+        "OPEN": 1.0,
+        "FOREST": 2.0,
+        "BLOCKED": 9999.0
+      },
+      "grid": [
+        ["OPEN", "OPEN", "OPEN", "OPEN", "FOREST", "FOREST", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN"],
+        ["OPEN", "OPEN", "OPEN", "OPEN", "FOREST", "FOREST", "OPEN", "OPEN", "BLOCKED", "BLOCKED", "OPEN", "OPEN"],
+        ["OPEN", "OPEN", "BLOCKED", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "BLOCKED", "BLOCKED", "OPEN", "OPEN"],
+        ["OPEN", "OPEN", "BLOCKED", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN"],
+        ["OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "FOREST", "FOREST", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN"],
+        ["OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "FOREST", "FOREST", "OPEN", "OPEN", "OPEN", "BLOCKED", "OPEN"],
+        ["OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "BLOCKED", "OPEN"],
+        ["OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN"]
+      ],
+      "enemies": [[3, 6, 3]]
+    },
+    {
+      "name": "high_risk_corridor",
+      "description": "Narrow passage with heavy enemy presence",
+      "rows": 6,
+      "cols": 16,
+      "start": [5, 0],
+      "goal": [0, 15],
+      "terrain": {
+        "OPEN": 1.0,
+        "BLOCKED": 9999.0
+      },
+      "grid": [
+        ["BLOCKED", "BLOCKED", "BLOCKED", "BLOCKED", "BLOCKED", "BLOCKED", "BLOCKED", "BLOCKED", "BLOCKED", "BLOCKED", "BLOCKED", "BLOCKED", "BLOCKED", "BLOCKED", "BLOCKED", "OPEN"],
+        ["BLOCKED", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "BLOCKED", "BLOCKED"],
+        ["BLOCKED", "OPEN", "BLOCKED", "BLOCKED", "BLOCKED", "BLOCKED", "BLOCKED", "BLOCKED", "BLOCKED", "BLOCKED", "BLOCKED", "BLOCKED", "BLOCKED", "OPEN", "BLOCKED", "BLOCKED"],
+        ["BLOCKED", "OPEN", "BLOCKED", "BLOCKED", "BLOCKED", "BLOCKED", "BLOCKED", "BLOCKED", "BLOCKED", "BLOCKED", "BLOCKED", "BLOCKED", "BLOCKED", "OPEN", "BLOCKED", "BLOCKED"],
+        ["BLOCKED", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "BLOCKED", "BLOCKED"],
+        ["OPEN", "BLOCKED", "BLOCKED", "BLOCKED", "BLOCKED", "BLOCKED", "BLOCKED", "BLOCKED", "BLOCKED", "BLOCKED", "BLOCKED", "BLOCKED", "BLOCKED", "BLOCKED", "BLOCKED", "BLOCKED"]
+      ],
+      "enemies": [
+        [1, 4, 4],
+        [1, 8, 4],
+        [1, 12, 4],
+        [4, 4, 4],
+        [4, 8, 4],
+        [4, 12, 4]
+      ]
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "description": "Sample training data structure for reinforcement learning extension",
+  "episodes": [
+    {
+      "episode_id": 1,
+      "map_config": {
+        "rows": 10,
+        "cols": 10,
+        "terrain": "urban_warfare",
+        "enemies": [[3, 7, 4], [6, 2, 3]]
+      },
+      "states": [
+        {
+          "position": [9, 0],
+          "goal": [0, 9],
+          "risk_map": "computed_dynamically",
+          "action_taken": "move_north",
+          "reward": -1.5,
+          "next_position": [8, 0]
+        },
+        {
+          "position": [8, 0],
+          "goal": [0, 9],
+          "risk_map": "computed_dynamically",
+          "action_taken": "move_east",
+          "reward": -2.0,
+          "next_position": [8, 1]
+        }
+      ],
+      "total_reward": -45.2,
+      "path_length": 18,
+      "safety_score": 0.73
+    },
+    {
+      "episode_id": 2,
+      "map_config": {
+        "rows": 10,
+        "cols": 10,
+        "terrain": "mountain_pass",
+        "enemies": [[2, 5, 5], [7, 8, 4]]
+      },
+      "states": [
+        {
+          "position": [9, 0],
+          "goal": [0, 9],
+          "risk_map": "computed_dynamically",
+          "action_taken": "move_north",
+          "reward": -1.0,
+          "next_position": [8, 0]
+        }
+      ],
+      "total_reward": -52.1,
+      "path_length": 22,
+      "safety_score": 0.68
+    }
+  ],
+  "training_parameters": {
+    "learning_rate": 0.001,
+    "discount_factor": 0.95,
+    "exploration_rate": 0.1,
+    "batch_size": 32,
+    "memory_size": 10000
+  },
+  "reward_structure": {
+    "step_penalty": -1.0,
+    "risk_penalty_multiplier": -2.0,
+    "goal_reward": 100.0,
+    "collision_penalty": -50.0
+  }
+}

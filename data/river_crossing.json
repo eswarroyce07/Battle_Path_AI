@@ -1,0 +1,30 @@
+{
+  "rows": 10,
+  "cols": 18,
+  "start": [9, 1],
+  "goal": [1, 16],
+  "terrain": {
+    "OPEN": 1.0,
+    "FOREST": 2.0,
+    "URBAN": 1.5,
+    "WATER": 7.0,
+    "MOUNTAIN": 5.0,
+    "BLOCKED": 9999.0
+  },
+  "grid": [
+    ["FOREST", "OPEN", "OPEN", "OPEN", "WATER", "WATER", "WATER", "WATER", "WATER", "WATER", "WATER", "WATER", "WATER", "OPEN", "OPEN", "OPEN", "OPEN", "FOREST"],
+    ["FOREST", "FOREST", "OPEN", "OPEN", "WATER", "WATER", "WATER", "WATER", "WATER", "WATER", "WATER", "WATER", "WATER", "WATER", "OPEN", "OPEN", "OPEN", "FOREST"],
+    ["OPEN", "FOREST", "FOREST", "OPEN", "WATER", "WATER", "WATER", "WATER", "WATER", "WATER", "WATER", "WATER", "WATER", "WATER", "WATER", "OPEN", "OPEN", "OPEN"],
+    ["OPEN", "OPEN", "FOREST", "OPEN", "OPEN", "WATER", "WATER", "WATER", "WATER", "WATER", "WATER", "WATER", "WATER", "WATER", "WATER", "WATER", "OPEN", "OPEN"],
+    ["OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "WATER", "WATER", "WATER", "WATER", "WATER", "WATER", "WATER", "WATER", "WATER", "WATER", "WATER", "OPEN"],
+    ["FOREST", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "WATER", "WATER", "WATER", "WATER", "WATER", "WATER", "WATER", "WATER", "WATER", "WATER", "WATER"],
+    ["FOREST", "FOREST", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "WATER", "WATER", "WATER", "WATER", "WATER", "WATER", "WATER", "WATER", "WATER", "WATER"],
+    ["OPEN", "FOREST", "FOREST", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "WATER", "WATER", "WATER", "WATER", "WATER", "WATER", "WATER", "WATER", "OPEN"],
+    ["OPEN", "OPEN", "FOREST", "FOREST", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "WATER", "WATER", "WATER", "WATER", "WATER", "WATER", "OPEN", "OPEN"],
+    ["OPEN", "OPEN", "OPEN", "FOREST", "FOREST", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "OPEN", "WATER", "WATER", "WATER", "WATER", "OPEN", "OPEN", "OPEN"]
+  ],
+  "enemies": [
+    [1, 8, 7],
+    [5, 14, 6]
+  ]
+}
