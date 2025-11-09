@@ -1,28 +1,46 @@
-# BattlePath AI – Tactical Pathfinding Simulator
+📘 Overview
 
-A simple, resume-ready AI project simulating a battlefield and computing the **safest path** using A* with a risk-aware cost.
+BattlePath AI is an AI-powered tactical pathfinding system designed to simulate intelligent troop movement in a battlefield environment.
+It uses Game AI techniques and heuristic algorithms like A* pathfinding integrated with risk-based modeling to determine the safest or most efficient route from a start point to a target while avoiding enemy zones and high-risk areas.
 
-## Quick Start
+This project demonstrates how artificial intelligence can be applied to real-time strategy, military simulation, and autonomous decision-making.
 
-1. (Optional) Create & activate virtual environment:
-   - `python -m venv .venv`
-   - Windows: `.venv\Scripts\activate`
-   - Linux/Mac: `source .venv/bin/activate`
+🚀 Features
 
-2. Install:
-   - `pip install -r requirements.txt`
+🗺️ Interactive 2D battlefield grid visualization
 
-3. Run:
-   - `python src/main.py`
+⚔️ Dynamic enemy placement and threat zone modeling
 
-## Controls
-- `R` : Randomize enemy positions & recompute
-- `T` : Toggle mode (Safest <-> Fastest)
-- `N` : Regenerate simple terrain
-- `SPACE` : Animate troop movement along current path
-- `ESC` / `Q` : Quit
+🔥 Real-time risk heatmap generation
 
-## Project idea
-- Grid/graph battlefield with terrain costs and enemy threat zones
-- A* pathfinding with risk-weighted cost
-- Optional: Q-Learning/DQN extension (stub provided)
+🧠 A* algorithm for tactical pathfinding
+
+🔄 Dual mode – Safest Path and Fastest Path selection
+
+🎮 Interactive GUI built with Pygame
+
+📊 Result analysis and risk evaluation for every simulation
+
+🧩 Project Modules
+
+Map Input Module – Takes user-defined start, goal, and enemy positions.
+
+Data Preprocessing & Validation – Cleans and prepares grid data.
+
+Risk Map Generation – Calculates threat intensity using exponential decay.
+
+Pathfinding Engine (A*) – Finds optimal route considering risk and terrain.
+
+Visualization Module – Displays grid, risk heatmap, and AI-calculated path.
+
+Result Logging – Stores performance metrics for analysis.
+
+🧠 Technologies Used
+
+Programming Language: Python
+
+Libraries: NumPy, Pygame, Matplotlib (optional for heatmaps)
+
+Algorithms: A* Search Algorithm, Risk Decay Modeling
+
+Tools: VS Code / Windsurf IDE
